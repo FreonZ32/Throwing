@@ -1,6 +1,7 @@
 #include<iostream>
 #include<conio.h>
-#include <stdio.h>
+#include<thread>
+#include<stdio.h>
 #include<windows.h>
 using namespace std;
 using std::cout;
@@ -178,18 +179,31 @@ void ClearScreen()
 	/* Move the cursor home */
 	SetConsoleCursorPosition(hStdOut, homeCoords);
 }
-
-void main()
+void thr1(Box& obj)
 {
-	setlocale(LC_ALL, "rus");
+	while (!esc)
+	{obj.draw();}
+
+}
+void thr2()
+{
 	while (!esc)
 	{
-	Box A(Color::red,1,300,500);
-	A.draw();
-	
 	setCousorPosition(0, 20);
-	cout << "Размер равен: " << 300;//Sleep(2);
-	ClearScreen();
+	cout << "Размер равен: " << 300;Sleep(2);
 	}
+	
+}
+void main()
+{
+	Box A(Color::red, 1, 300, 500);
+	setlocale(LC_ALL, "rus");
+	std::thread Box_thread(thr1,ref(A));
+	std::thread Text_thread(thr2);
+	cin.get();
+	esc = true;
+
+	Box_thread.join();
+	Text_thread.join();
 	
 }
