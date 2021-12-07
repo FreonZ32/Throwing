@@ -268,9 +268,9 @@ public:
 	}
 	void move(Box& obj)
 	{
-		if (coord_x - radius < 0 || coord_x + radius > obj.get_field_width()) { set_push_x(push_x *= -1); coord_x += push_x; }
+		if (coord_x - radius < 0 || ((coord_x + radius) > obj.get_field_width())) { set_push_x(push_x *= -1); coord_x += push_x; }
 		else coord_x += push_x;
-		if (coord_y - radius < 0 || coord_y + radius > obj.get_field_height()) { set_push_y(push_y *= -1);coord_y += push_y; }
+		if (coord_y - radius < 0 || ((coord_y + radius) > obj.get_field_height())) { set_push_y(push_y *= -1);coord_y += push_y; }
 		else { coord_y += push_y;}
 	}
 
@@ -294,7 +294,7 @@ void thr2(Box& obj,Ball& obj2)
 {
 	while (!esc)
 	{
-		setCousorPosition(0,obj.get_field_height()/obj.get_char_size_h()+1);
+		setCousorPosition(0,int(obj.get_field_height()/obj.get_char_size_h()+1));
 		cout << "Размер поля выс/длин: " << obj.get_field_height() << "/" << obj.get_field_width() << endl;
 		cout << "Координаты шарика x/y: " << obj2.get_coord_x() << "/" << obj2.get_coord_y() << endl;
 		Sleep(200);
