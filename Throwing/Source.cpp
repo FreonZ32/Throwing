@@ -196,6 +196,7 @@ public:
 		Rectangle(hdc,int(screen_size_w/2-field_width/2), 0, int(screen_size_w/2 + field_width /2), int(field_height));
 		DeleteObject(hPen);
 		DeleteObject(hBrush);
+		ReleaseDC(hwnd, hdc);
 		Sleep(20);
 	}
 };
@@ -205,8 +206,8 @@ class Ball :public Objects
 	int radius;
 	int coord_x;	//Координаты по ширине поля
 	int coord_y;	//Координаты по высоте поля
-	int push_x;
-	int push_y;
+	double push_x;
+	double push_y;
 	//vector < vector <int> > path(n, vector <int> (m) );
 public:
 	//GET/SET
@@ -219,10 +220,10 @@ public:
 	int get_coord_y()const
 	{return coord_y;}
 
-	int get_push_x()const
+	double get_push_x()const
 	{return push_x;}
 
-	int get_push_y()const
+	double get_push_y()const
 	{return push_y;}
 
 	void set_radius(int radius)
@@ -234,10 +235,10 @@ public:
 	void set_coord_y(int coord_y)
 	{this->coord_y = coord_y;}
 
-	void set_push_x(int push_x)
+	void set_push_x(double push_x)
 	{this->push_x = push_x;}
 
-	void set_push_y(int push_y)
+	void set_push_y(double push_y)
 	{this->push_y = push_y;}
 
 	//CONSTRUCTOR
@@ -264,6 +265,7 @@ public:
 		Ellipse(hdc,int((screen_size_w / 2 - obj.get_field_width() / 2)+coord_x-radius), coord_y-radius,int((screen_size_w / 2 - obj.get_field_width() / 2)+coord_x+radius),coord_y+radius );
 		DeleteObject(hPen);
 		DeleteObject(hBrush);
+		ReleaseDC(hwnd, hdc);
 		Sleep(10);
 	}
 	void move(Box& obj)
@@ -304,10 +306,10 @@ void thr2(Box& obj,Ball& obj2)
 void main()
 {
 	Box A(Color::grey, 1, 400, 800);
-	Ball B(Color::grass, 1, 10, 100, 100);
+	Ball B(Color::grass, 1, 15, 15, 15);
 	setlocale(LC_ALL, "rus");
-		B.set_push_x(4);
-		B.set_push_y(-6);
+		B.set_push_x(15);
+		B.set_push_y(-30);
 	
 	thread Box_thread(thr1,ref(A));
 	thread Ball_thread(thr3,ref(A),ref(B));
